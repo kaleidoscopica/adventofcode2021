@@ -22,8 +22,8 @@ def main():
             gamma += '0'
             epsilon += '1'
 
-    print("gamma rate:   ", gamma)
-    print("epsilon rate: ", epsilon)
+    print("Gamma rate:   ", gamma)
+    print("Epsilon rate: ", epsilon)
 
     power_consumption = int(gamma, 2) * int(epsilon, 2)
     print(power_consumption)

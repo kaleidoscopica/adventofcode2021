@@ -8,60 +8,68 @@ def main():
     oxygen_generator_rating_list = diagnostic_logs.copy()
     co2_scrubber_rating_list = diagnostic_logs.copy()
 
+    # Finding the (binary) oxygen generator rating
     for bit in range(12):
 
-        positional_list = [0] * (12 - bit)
-        print(positional_list)
-        for log in oxygen_generator_rating_list:
-            for x in range(len(positional_list)):
-                positional_list[x] += int(log[x])
-        print(positional_list)
-        print(bit)
-        print(len(oxygen_generator_rating_list) / 2)
+        count_zeroes = 0
+        count_ones = 0
 
-        if positional_list[bit] >= (len(oxygen_generator_rating_list) / 2):
+        for log in oxygen_generator_rating_list:
+            if log[bit] == '0':
+                count_zeroes += 1
+            elif log[bit] == '1':
+                count_ones += 1
+
+        print("bit", bit, "zeroes:", count_zeroes)
+        print("bit", bit, "ones:", count_ones)
+
+        if count_zeroes <= count_ones and len(oxygen_generator_rating_list) > 1:
             for log in oxygen_generator_rating_list:
-                if log[bit] == '0' and len(oxygen_generator_rating_list) > 1:
+                if log[bit] == '0':
                     valueToBeRemoved = log
                     # have to make sure all instances of valueToBeRemoved are removed since there are duplicates
                     oxygen_generator_rating_list = [value for value in oxygen_generator_rating_list if value != valueToBeRemoved]
-        else:
+        elif count_zeroes > count_ones and len(oxygen_generator_rating_list) > 1:
             for log in oxygen_generator_rating_list:
-                if log[bit] == '1' and len(oxygen_generator_rating_list) > 1:
+                if log[bit] == '1':
                     valueToBeRemoved = log
                     oxygen_generator_rating_list = [value for value in oxygen_generator_rating_list if value != valueToBeRemoved]
 
+    # Finding the (binary) CO2 scrubber rating
+    for bit in range(12):
 
-    for count, position in enumerate(positional_list):
+        count_zeroes = 0
+        count_ones = 0
 
-        new_positional_list = [0] * (len(positional_list) - count)
-        for log in oxygen_generator_rating_list:
-            for x in range(len(new_positional_list)):
-                new_positional_list[x] += int(log[x])
-        print(new_positional_list)
+        for log in co2_scrubber_rating_list:
+            if log[bit] == '0':
+                count_zeroes += 1
+            elif log[bit] == '1':
+                count_ones += 1
 
-        if position <= new_positional_list[count]:
+        print("bit", bit, "zeroes:", count_zeroes)
+        print("bit", bit, "ones:", count_ones)
+
+        if count_zeroes > count_ones and len(co2_scrubber_rating_list) > 1:
             for log in co2_scrubber_rating_list:
-                if log[count] == '0' and len(co2_scrubber_rating_list) > 1:
+                if log[bit] == '0':
                     valueToBeRemoved = log
                     # have to make sure all instances of valueToBeRemoved are removed since there are duplicates
                     co2_scrubber_rating_list = [value for value in co2_scrubber_rating_list if value != valueToBeRemoved]
-        else:
+        elif count_zeroes <= count_ones and len(co2_scrubber_rating_list) > 1:
             for log in co2_scrubber_rating_list:
-                if log[count] == '1' and len(co2_scrubber_rating_list) > 1:
+                if log[bit] == '1':
                     valueToBeRemoved = log
                     co2_scrubber_rating_list = [value for value in co2_scrubber_rating_list if value != valueToBeRemoved]
 
-    print(co2_scrubber_rating_list)
-    print(oxygen_generator_rating_list)
 
     oxygen_generator_rating = int(oxygen_generator_rating_list[0], 2)
     co2_scrubber_rating = int(co2_scrubber_rating_list[0], 2)
 
-    print("oxygen generator rating: ", oxygen_generator_rating)
-    print("co2 scrubber rating: ", co2_scrubber_rating)
+    print("Oxygen generator rating: ", oxygen_generator_rating)
+    print("CO2 scrubber rating: ", co2_scrubber_rating)
 
     life_support_rating = oxygen_generator_rating * co2_scrubber_rating
-    print("life support rating: ", life_support_rating)
+    print("Life support rating: ", life_support_rating)
 
 main()
