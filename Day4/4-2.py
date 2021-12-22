@@ -28,7 +28,8 @@ def main():
        bingo_cards.append(bingo_card_list[0:5])
        del bingo_card_list[0:5]
 
-    winning_bingo_card = []
+    winning_bingo_cards = []
+    last_winning_card = []
 
     print("Let's play bingo!")
     print()
@@ -38,6 +39,7 @@ def main():
     is_winning = False
     # for each number in the bingo_order list...
     for number in bingo_order:
+        print(len(bingo_cards))
         # check each bingo card in bingo_cards...
         for i, bingo_card in enumerate(bingo_cards):
             # and check each line of the bingo_card...
@@ -50,29 +52,34 @@ def main():
                         is_winning = win_condition(bingo_card)
                         if is_winning == True:
                             print("the following bingo card won!")
-                            winning_bingo_card = bingo_card
-                            print(print_bingo_card(winning_bingo_card))
+                            print(print_bingo_card(bingo_card))
                             print("winning bingo number:", number)
                             winning_bingo_number = number
+                            del bingo_cards[i]
+                            # if the length of the bingo_cards list is 1, this will be the last winning card
+                            if len(bingo_cards) == 1 and len(last_winning_card) == 0:
+                                last_winning_card.append(bingo_card)
+                                print(number)
+                                break
+                        if len(bingo_cards) == 1 and len(last_winning_card) == 0:
                             break
-                    if is_winning == True:
-                        break
-                if is_winning == True:
-                    break
-            if is_winning == True:
-                break
-        if is_winning == True:
-            break
+    
+    print(bingo_cards)
 
-    # Calculate the sum of non-marked squares on the winning bingo card
+    print(len(winning_bingo_cards))
+    print()
+    print(last_winning_card)
+                        
+
+    # Calculate the sum of non-marked squares on the last winning bingo card
     sum = 0
     for x in range(0, 5):
         for y in range(0, 5):
-            if bingo_card[x][y] != 'X':
-                sum += bingo_card[x][y]
+            if last_winning_card[0][x][y] != 'X':
+                sum += last_winning_card[0][x][y]
     
     final_score = sum * winning_bingo_number
-    print("sum of non-marked items on the winning bingo card:", sum)
+    print("sum of non-marked items on the last winning bingo card:", sum)
     print("final score:", final_score)
 
 
